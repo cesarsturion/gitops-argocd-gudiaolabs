@@ -43,19 +43,43 @@ jobs:
       
       - name: Set the tag
         run: |
-          echo "TAG=${{ github.run_number }} " >> $GITHUB_ENV
+          echo "TAG=${{ github.sha }} " >> $GITHUB_ENV
 
       - name: Build and Push the Image
         run: |
           docker build -t ${{ secrets.DOCKER_USER }}/$IMAGE_NAME:${{ env.TAG }} .
           docker push ${{ secrets.DOCKER_USER }}/$IMAGE_NAME:${{ env.TAG }}
 
-  update-chart: 
-    name: Update k8s manifest file 
-    needs: build
+  deploy: 
+    name: Deploy
     runs-on: ubuntu-latest
-    steps: 
-      - uses: actions/checkout@v2
+    needs: build
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
 
-      - name: Run a one-line script
-        run: echo Hello, world!
+      - name: Checkout Helm Chart repository
+        uses: actions/checkout@v2
+        with:
+          repository: gudiaolabs-charts/gitops-argocd
+          path: './gitops-argocd'
+
+      - name: List Files
+        run: |
+          ls -lha ./gitops-argocd
+
+
+      # - name: update k8s
+      #   run: |
+      #     cd k8s
+      #     kustomize edit set image go-app=csturion/go-app:${{ github.sha }}
+      #     cat kustomization.yaml
+
+      # - name: commit
+      #   run: |
+      #     git config --local user.email "action@github.com"
+      #     git config --local user.name "Deploy Action"
+      #     git commit -am "change image tag"
+
+      # - name: push
+      #   uses: ad-m/github-push-action@master
