@@ -68,6 +68,8 @@ jobs:
           ls -lha 
           echo "Diretorio chart"
           ls -lha chart
+          echo "Diretorio chart/${{ env.IMAGE_NAME }}"
+          ls -lha chart/${{ env.IMAGE_NAME }}
 
 
       # - name: update k8s
