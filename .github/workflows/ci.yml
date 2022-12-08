@@ -34,7 +34,7 @@ jobs:
       - name: Set the tag
         run: |
           git_hash=$(git rev-parse --short ${{ github.sha }})
-          echo "TAG=git_hash " >> $GITHUB_ENV
+          echo "TAG=$git_hash " >> $GITHUB_ENV
 
       - name: Build and Push the Image
         run: |
