@@ -59,17 +59,15 @@ jobs:
       - name: Checkout Helm Chart repository
         uses: actions/checkout@v3
         with:
-          repository: gudiaolabs/gudiaolabs-charts/gitops-argocd
-          path: './gudiaolabs-charts'
+          repository: gudiaolabs/gudiaolabs-charts
+          path: 'chart/$IMAGE_NAME'
 
       - name: List Files
         run: |
           echo "Diretorio principal"
           ls -lha 
-          echo "Diretorio gudiaolabs-charts"
-          ls -lha gudiaolabs-charts
-          echo "Diretorio gudiaolabs-charts/gitops-argocd"
-          ls -lha gudiaolabs-charts/gitops-argocd
+          echo "Diretorio chart"
+          ls -lha chart
 
 
       # - name: update k8s
