@@ -65,7 +65,7 @@ jobs:
       - name: List Files
         run: |
           ls -lha 
-
+          ls -lha gudiaolabs-charts
 
       # - name: update k8s
       #   run: |
