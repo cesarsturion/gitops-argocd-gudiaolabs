@@ -59,7 +59,7 @@ jobs:
       - name: Checkout Helm Chart repository
         uses: actions/checkout@v3
         with:
-          repository: gudiaolabs/gudiaolabs-charts
+          repository: gudiaolabs/gudiaolabs-charts/gitops-argocd
           path: './gudiaolabs-charts'
 
       - name: List Files
