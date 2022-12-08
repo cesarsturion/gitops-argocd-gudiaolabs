@@ -1,10 +1,19 @@
 name: Test Reusable WorkFlow user
 
 on:
+  workflow_dispatch:
+  push:
+    branches:
+      - 'feature/*'
+      - '!master'
+      - '!main'
   pull_request:
     branches: 
       - 'master'
       - 'main'
+  release:
+    types:
+      - 'created'
 
 env:
   IMAGE_NAME: "gitops-argocd"
