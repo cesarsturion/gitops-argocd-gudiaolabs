@@ -64,7 +64,7 @@ jobs:
 
       - name: List Files
         run: |
-          ls -lha ./gitops-argocd
+          ls -lha 
 
 
       # - name: update k8s
