@@ -64,8 +64,13 @@ jobs:
 
       - name: List Files
         run: |
+          echo "Diretorio principal"
           ls -lha 
+          echo "Diretorio gudiaolabs-charts"
           ls -lha gudiaolabs-charts
+          echo "Diretorio gudiaolabs-charts/gitops-argocd"
+          ls -lha gudiaolabs-charts/gitops-argocd
+
 
       # - name: update k8s
       #   run: |
