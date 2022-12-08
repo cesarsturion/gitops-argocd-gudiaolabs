@@ -60,7 +60,7 @@ jobs:
         uses: actions/checkout@v3
         with:
           repository: gudiaolabs/gudiaolabs-charts
-          path: $IMAGE_NAME
+          path: "chart/$IMAGE_NAME"
 
       - name: List Files
         run: |
