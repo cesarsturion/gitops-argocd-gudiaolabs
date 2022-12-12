@@ -64,20 +64,19 @@ jobs:
           git_hash=${{ needs.build.outputs.TAG_VERSION }}
           tag=$(cat ./${{ env.IMAGE_NAME }}/values.yaml | grep tag: | awk '{print $2}')
           sed -i "s/$tag/$git_hash/" ./${{ env.IMAGE_NAME }}/values.yaml
-          cat ./${{ env.IMAGE_NAME }}/values.yaml
 
       - name: commit
         run: |
           git config user.name github-actions[bot]
           git config user.email github-actions[bot]@users.noreply.github.com
-          git pull origin main
           git add .
           git commit -am "change image tag"
+          git push
 
-      - name: push
-        uses: ad-m/github-push-action@master
-        with: 
-          repository: gudiaolabs/gudiaolabs-charts
-          github_token: ${{ secrets.GITHUB_TOKEN }}	
-          branch: ${{ github.ref }}
+      # - name: push
+      #   uses: ad-m/github-push-action@master
+      #   with: 
+      #     repository: gudiaolabs/gudiaolabs-charts
+      #     github_token: ${{ secrets.GITHUB_TOKEN }}	
+      #     branch: ${{ github.ref }}
 
