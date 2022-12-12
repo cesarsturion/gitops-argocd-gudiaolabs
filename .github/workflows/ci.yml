@@ -64,9 +64,9 @@ jobs:
       - name: update k8s
         run: |
           git_hash=${{ needs.build.outputs.tag }}
-          tag=$(cat ./charts/${{ env.IMAGE_NAME }}/values.yaml | grep tag: | awk '{print $2}')
-          sed -i "s/$tag/git_hash/" ./charts/${{ env.IMAGE_NAME }}/values.yaml
-          cat ./charts/${{ env.IMAGE_NAME }}/values.yaml
+          tag=$(cat ./${{ env.IMAGE_NAME }}/values.yaml | grep tag: | awk '{print $2}')
+          sed -i "s/$tag/git_hash/" ./${{ env.IMAGE_NAME }}/values.yaml
+          cat ./${{ env.IMAGE_NAME }}/values.yaml
 
       # - name: commit
       #   run: |
