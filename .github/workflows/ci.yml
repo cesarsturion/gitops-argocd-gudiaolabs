@@ -57,10 +57,6 @@ jobs:
           repository: gudiaolabs/gudiaolabs-charts
           # path: './charts'
 
-      - name: Debug
-        run: |
-          ls -lha
-
       - name: update k8s
         run: |
           git_hash=${{ needs.build.outputs.TAG_VERSION }}
@@ -68,11 +64,11 @@ jobs:
           sed -i "s/$tag/$git_hash/" ./${{ env.IMAGE_NAME }}/values.yaml
           cat ./${{ env.IMAGE_NAME }}/values.yaml
 
-      # - name: commit
-      #   run: |
-      #     git config --local user.email "action@github.com"
-      #     git config --local user.name "Deploy Action"
-      #     git commit -am "change image tag"
+      - name: commit
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "Deploy Action"
+          git commit -am "change image tag"
 
-      # - name: push
-      #   uses: ad-m/github-push-action@master
+      - name: push
+        uses: ad-m/github-push-action@master
