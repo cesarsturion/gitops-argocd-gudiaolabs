@@ -55,9 +55,9 @@ jobs:
         uses: actions/checkout@v3
         with:
           repository: gudiaolabs/gudiaolabs-charts
-          # ref: ${{ github.event.pull_request.head.ref }}          
-          # persist-credentials: false
-          # fetch-depth: 0 
+          ref: ${{ github.event.pull_request.head.ref }}          
+          persist-credentials: false
+          fetch-depth: 0 
 
       - name: update k8s
         run: |
@@ -76,4 +76,5 @@ jobs:
         uses: ad-m/github-push-action@master
         with: 
           repository: gudiaolabs/gudiaolabs-charts
+          github_token: ${{ secrets.GITHUB_TOKEN }}	
 
