@@ -65,7 +65,7 @@ jobs:
       - name: update k8s
         run: |
           # git_hash=${{ needs.build.outputs.TAG_VERSION }}
-          git_hash= "838672f"
+          echo "git_hash=838672f" >> $GITHUB_ENV          
           tag=$(cat ./${{ env.IMAGE_NAME }}/values.yaml | grep tag: | awk '{print $2}')
           sed -i "s/$tag/$git_hash/" ./${{ env.IMAGE_NAME }}/values.yaml
 
