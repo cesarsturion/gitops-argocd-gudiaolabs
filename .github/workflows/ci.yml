@@ -73,16 +73,13 @@ jobs:
 
       - name: commit
         run: |
-          # git config user.email "github-actions@github.com"
-          # git config user.name "github-actions"
-          git config user.email "csturion@gmail.com"
-          git config user.name "Cesar Sturion"
+          git config user.email "github-actions@github.com"
+          git config user.name "github-actions"
           git commit -am "change image tag"
-          git push 
 
-      # - name: push
-      #   uses: ad-m/github-push-action@master
-      #   with: 
-      #     repository: gudiaolabs/gudiaolabs-charts
-      #     github_token: ${{ secrets.GITHUB_TOKEN }}	
+      - name: push
+        uses: ad-m/github-push-action@master
+        with: 
+          repository: gudiaolabs/gudiaolabs-charts
+          github_token: ${{ secrets.GITHUB_TOKEN }}	
 
