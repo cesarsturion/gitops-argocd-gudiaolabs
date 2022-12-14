@@ -14,6 +14,8 @@ on:
   # release:
   #   types:
   #     - 'created'
+permissions:
+  contents: write
 
 env:
   IMAGE_NAME: "gitops-argocd"
