@@ -75,9 +75,8 @@ jobs:
         run: |
           git config user.email "github-actions@github.com"
           git config user.name "github-actions"
-          # git add .
           git commit -am "change image tag"
-          # git push 
+          git push 
 
       # - name: push
       #   uses: ad-m/github-push-action@master
