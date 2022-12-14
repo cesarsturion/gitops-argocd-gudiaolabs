@@ -77,7 +77,7 @@ jobs:
       - name: commit
         run: |
           cd ./k8s
-          git config user.email "csturion@gmail.com"
+          git config user.email "cesar.sturion@vissimo.com.br"
           git config user.name "Cesar Sturion"
           git add .
           git commit -m "change image tag"
