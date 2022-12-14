@@ -51,13 +51,19 @@ jobs:
     needs: build
     steps:
 
+      - uses: actions/checkout@v3
+
       - name: Checkout Helm Chart repository
         uses: actions/checkout@v3
         with:
           repository: gudiaolabs/gudiaolabs-charts
-          # ref: ${{ github.event.pull_request.head.ref }}          
-          # persist-credentials: false
-          # fetch-depth: 0 
+          persist-credentials: false
+          fetch-depth: 0 
+
+      - name: debug
+        run: |
+          ls -lha
+          ls -lha ./${{ env.IMAGE_NAME }}
 
       - name: update k8s
         run: |
@@ -65,12 +71,13 @@ jobs:
           tag=$(cat ./${{ env.IMAGE_NAME }}/values.yaml | grep tag: | awk '{print $2}')
           sed -i "s/$tag/$git_hash/" ./${{ env.IMAGE_NAME }}/values.yaml
 
-      - name: commit
-        run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "Deploy Action"
-          git commit -am "change image tag"
-          git push 
+      # - name: commit
+      #   run: |
+      #     git config user.email "github-actions@github.com"
+      #     git config user.name "github-actions"
+      #     git add .
+      #     git commit -m "change image tag"
+      #     git push 
 
       # - name: push
       #   uses: ad-m/github-push-action@master
