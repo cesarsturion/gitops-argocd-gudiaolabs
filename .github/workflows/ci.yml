@@ -80,4 +80,5 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           repository: gudiaolabs/gudiaolabs-charts
+          branch: feature/argocd-tests
 
