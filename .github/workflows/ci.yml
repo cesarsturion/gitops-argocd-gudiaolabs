@@ -50,11 +50,8 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     steps:
-
-      - uses: actions/checkout@v3
-
       - name: Checkout Helm Chart repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2
         with:
           repository: gudiaolabs/gudiaolabs-charts
           persist-credentials: false
@@ -71,15 +68,29 @@ jobs:
           tag=$(cat ./${{ env.IMAGE_NAME }}/values.yaml | grep tag: | awk '{print $2}')
           sed -i "s/$tag/$git_hash/" ./${{ env.IMAGE_NAME }}/values.yaml
 
-      - name: commit
-        run: |
-          git config user.email "github-actions@github.com"
-          git config user.name "github-actions"
-          git commit -am "change image tag"
+      # - name: commit
+      #   run: |
+      #     git config user.email "github-actions@github.com"
+      #     git config user.name "github-actions"
+      #     git commit -am "change image tag"
 
-      - name: push
+      - name: Commit files
+        run: |
+          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git commit -a -m "Add changes"
+
+      - name: Push changes
         uses: ad-m/github-push-action@master
-        with: 
-          repository: gudiaolabs/gudiaolabs-charts
-          github_token: ${{ secrets.GITHUB_TOKEN }}	
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.ref }}
+
+
+      # - name: push
+      #   uses: ad-m/github-push-action@master
+      #   with: 
+      #     repository: gudiaolabs/gudiaolabs-charts
+      #     github_token: ${{ secrets.GITHUB_TOKEN }}	
+      #     feature/argocd-tests
 
