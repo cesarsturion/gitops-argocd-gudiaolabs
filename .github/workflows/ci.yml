@@ -72,19 +72,11 @@ jobs:
         run: |
           git config user.email "github-actions@github.com"
           git config user.name "github-actions"
-          git commit -am "change image tag"
+          git add .
+          git commit -m "change image tag"
 
       - name: Push changes
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: feature/argocd-tests
-
-
-      # - name: push
-      #   uses: ad-m/github-push-action@master
-      #   with: 
-      #     repository: gudiaolabs/gudiaolabs-charts
-      #     github_token: ${{ secrets.GITHUB_TOKEN }}	
-      #     feature/argocd-tests
 
