@@ -71,13 +71,13 @@ jobs:
           tag=$(cat ./${{ env.IMAGE_NAME }}/values.yaml | grep tag: | awk '{print $2}')
           sed -i "s/$tag/$git_hash/" ./${{ env.IMAGE_NAME }}/values.yaml
 
-      # - name: commit
-      #   run: |
-      #     git config user.email "github-actions@github.com"
-      #     git config user.name "github-actions"
-      #     git add .
-      #     git commit -m "change image tag"
-      #     git push 
+      - name: commit
+        run: |
+          git config user.email "github-actions@github.com"
+          git config user.name "github-actions"
+          # git add .
+          git commit -am "change image tag"
+          # git push 
 
       # - name: push
       #   uses: ad-m/github-push-action@master
