@@ -95,7 +95,7 @@ jobs:
           echo "Dir 01"
           ls -lha
           echo "Dir 02"
-          ls -lha /${{ env.IMAGE_NAME }}
+          ls -lha ${{ env.IMAGE_NAME }}
 
       # - uses: EndBug/add-and-commit@v9
       #   with:
