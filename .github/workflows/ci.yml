@@ -77,9 +77,9 @@ jobs:
       - name: Checkout Helm Chart repository
         uses: actions/checkout@v3
         with:
-          repository: gudiaolabs/gudiaolabs-charts
+          repository: gudiaolabs/gitops-argocd_chart
           token: ${{ secrets.GH_PAT_DEVOPS }}
-          path: ./gudiaolabs-charts
+          # path: ./gudiaolabs-charts
 
       # - name: debug
       #   run: |
@@ -91,8 +91,8 @@ jobs:
         run: |
           # git_hash=${{ needs.build.outputs.TAG_VERSION }}
           git_hash="838672f"
-          tag=$(cat ./gudiaolabs-charts/${{ env.IMAGE_NAME }}/values.yaml | grep tag: | awk '{print $2}')
-          sed -i "s/$tag/$git_hash/" ./gudiaolabs-charts/${{ env.IMAGE_NAME }}/values.yaml
+          tag=$(cat ./gitops-argocd_chart/values.yaml | grep tag: | awk '{print $2}')
+          sed -i "s/$tag/$git_hash/" ./gitops-argocd_chart/values.yaml
 
       # - name: commit
       #   run: |
@@ -206,6 +206,6 @@ jobs:
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.GH_PAT_DEVOPS }}
-          repository: gudiaolabs/gudiaolabs-charts
+          repository: gudiaolabs/gitops-argocd_chart
           branch: feature/argocd-tests
 
