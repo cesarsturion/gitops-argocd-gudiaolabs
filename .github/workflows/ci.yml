@@ -50,17 +50,17 @@ jobs:
   #         docker push ${{ secrets.DOCKER_USER }}/$IMAGE_NAME:${{ env.TAG }}
 
   deploy: 
-    permissions:
-      actions: write
-      checks: write
-      contents: write
-      deployments: write
-      issues: write
-      packages: write
-      pull-requests: write
-      repository-projects: write
-      security-events: write
-      statuses: write  
+    # permissions:
+    #   actions: write
+    #   checks: write
+    #   contents: write
+    #   deployments: write
+    #   issues: write
+    #   packages: write
+    #   pull-requests: write
+    #   repository-projects: write
+    #   security-events: write
+    #   statuses: write  
     name: Deploy
     runs-on: ubuntu-latest
     # needs: build
@@ -125,27 +125,27 @@ jobs:
 
         #     git push
 
-        - run: |
-            echo "cloning config repo $CONFIG_REPO_NAME"
-            git clone https://oauth2:${{ secrets.GH_PAT_DEVOPS }}@github.com/${{ github.repository_owner }}/$CONFIG_REPO_NAME.git
+        # - run: |
+        #     echo "cloning config repo $CONFIG_REPO_NAME"
+        #     git clone https://oauth2:${{ secrets.GH_PAT_DEVOPS }}@github.com/${{ github.repository_owner }}/$CONFIG_REPO_NAME.git
 
-            cd ./$CONFIG_REPO_NAME
+        #     cd ./$CONFIG_REPO_NAME
 
-            echo "promoting into dev environment!"
-            git config user.name github-actions[bot]
-            git config user.email github-actions[bot]@users.noreply.github.com
+        #     echo "promoting into dev environment!"
+        #     git config user.name github-actions[bot]
+        #     git config user.email github-actions[bot]@users.noreply.github.com
 
-            echo "checkout main branch"
-            git checkout feature/argocd-tests
+        #     echo "checkout main branch"
+        #     git checkout feature/argocd-tests
 
-            echo "updating image tag in values file"
-            git_hash="838672f"
-            tag=$(cat ./${{ env.IMAGE_NAME }}/values.yaml | grep tag: | awk '{print $2}')
-            sed -i "s/$tag/$git_hash/" ./${{ env.IMAGE_NAME }}/values.yaml
+        #     echo "updating image tag in values file"
+        #     git_hash="838672f"
+        #     tag=$(cat ./${{ env.IMAGE_NAME }}/values.yaml | grep tag: | awk '{print $2}')
+        #     sed -i "s/$tag/$git_hash/" ./${{ env.IMAGE_NAME }}/values.yaml
 
-            git add . && git commit -m "update image tag"
+        #     git add . && git commit -m "update image tag"
 
-            git push
+        #     git push
 
 
 
@@ -202,10 +202,10 @@ jobs:
       #     committer_email: actions@github.com
       #     cwd: './k8s/'
 
-      # - name: Push changes
-      #   uses: ad-m/github-push-action@master
-      #   with:
-      #     github_token: ${{ secrets.GITHUB_TOKEN }}
-      #     repository: gudiaolabs/gudiaolabs-charts
-      #     branch: feature/argocd-tests
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GH_PAT_DEVOPS }}
+          repository: gudiaolabs/gudiaolabs-charts
+          branch: feature/argocd-tests
 
