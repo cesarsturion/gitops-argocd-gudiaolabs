@@ -91,8 +91,8 @@ jobs:
         run: |
           # git_hash=${{ needs.build.outputs.TAG_VERSION }}
           git_hash="838672f"
-          tag=$(cat ./k8s/${{ env.IMAGE_NAME }}/values.yaml | grep tag: | awk '{print $2}')
-          sed -i "s/$tag/$git_hash/" ./k8s/${{ env.IMAGE_NAME }}/values.yaml
+          tag=$(cat ./gudiaolabs-charts/${{ env.IMAGE_NAME }}/values.yaml | grep tag: | awk '{print $2}')
+          sed -i "s/$tag/$git_hash/" ./gudiaolabs-charts/${{ env.IMAGE_NAME }}/values.yaml
 
       # - name: commit
       #   run: |
