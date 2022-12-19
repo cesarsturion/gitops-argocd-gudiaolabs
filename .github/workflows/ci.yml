@@ -19,6 +19,8 @@ permissions:
 
 env:
   IMAGE_NAME: "gitops-argocd"
+  CONFIG_REPO_NAME: "gudiaolabs-charts"
+
 
 jobs:
   # build:
@@ -61,12 +63,12 @@ jobs:
       #     repository: gudiaolabs/gudiaolabs-charts
       #     path: ./k8s
 
-      - name: Checkout Helm Chart repository
-        uses: actions/checkout@master
-        with:
-          repository: gudiaolabs/gudiaolabs-charts
-          token: ${{ secrets.GITHUB_TOKEN }}
-          path: ./gudiaolabs-charts
+      # - name: Checkout Helm Chart repository
+      #   uses: actions/checkout@master
+      #   with:
+      #     repository: gudiaolabs/gudiaolabs-charts
+      #     token: ${{ secrets.GITHUB_TOKEN }}
+      #     path: ./gudiaolabs-charts
 
       # - name: debug
       #   run: |
@@ -91,23 +93,53 @@ jobs:
       #     git remote -v
       #     git push origin main
 
-      - name: commit
-        run: |
-          cd gudiaolabs-charts
+        - run: |
+            echo "promoting into dev environment!"
+            git config --global user.email ci-bot@argocd.com && git config --global user.name ci-bot
 
-          git config user.name github-actions
-          git config user.email github-actions@github.com
+            echo "cloning config repo $CONFIG_REPO_NAME"
+            git clone https://oauth2:${{ secrets.GH_PAT }}@github.com/${{ github.repository_owner }}/$CONFIG_REPO_NAME.git
 
-          # echo "updating image tag in values file"
-          git_hash="838672f"
-          tag=$(cat ./${{ env.IMAGE_NAME }}/values.yaml | grep tag: | awk '{print $2}')
-          sed -i "s/$tag/$git_hash/" ./${{ env.IMAGE_NAME }}/values.yaml
+            cd ./$CONFIG_REPO_NAME/${{ env.IMAGE_NAME }}
 
-          git remote set-url --add --push origin https://github.com/gudiaolabs/gudiaolabs-charts.git
+            # echo "checkout main branch"
+            # git checkout main
 
-          git add .
-          git commit -am "File Replicated from Project A"
-          git push
+            # echo "updating image tag in values file"
+            # git_hash="838672f"
+            # tag=$(cat ./${{ env.IMAGE_NAME }}/values.yaml | grep tag: | awk '{print $2}')
+            # sed -i "s/$tag/$git_hash/" ./${{ env.IMAGE_NAME }}/values.yaml
+
+            # git add . && git commit -m "update image tag"
+
+            # git push
+
+        - name: debug
+          run: |
+            echo "Dir 01"
+            ls -lha
+            echo "Dir 02"
+            ls -lha ./$CONFIG_REPO_NAME
+            echo "Dir 03"
+            ls -lha ./$CONFIG_REPO_NAME/${{ env.IMAGE_NAME }}
+
+      # - name: commit
+      #   run: |
+      #     cd gudiaolabs-charts
+
+      #     git config user.name github-actions
+      #     git config user.email github-actions@github.com
+
+      #     # echo "updating image tag in values file"
+      #     git_hash="838672f"
+      #     tag=$(cat ./${{ env.IMAGE_NAME }}/values.yaml | grep tag: | awk '{print $2}')
+      #     sed -i "s/$tag/$git_hash/" ./${{ env.IMAGE_NAME }}/values.yaml
+
+      #     git remote set-url --add --push origin https://github.com/gudiaolabs/gudiaolabs-charts.git
+
+      #     git add .
+      #     git commit -am "File Replicated from Project A"
+      #     git push
 
       # - name: commit
       #   run: |
@@ -127,14 +159,6 @@ jobs:
       #     git add . && git commit -m "update image tag [skip ci]"
       #     git push
 
-      # - name: debug
-      #   run: |
-      #     echo "Dir 01"
-      #     ls -lha
-      #     echo "Dir 02"
-      #     ls -lha gudiaolabs-charts
-      #     echo "Dir 03"
-      #     ls -lha gudiaolabs-charts/${{ env.IMAGE_NAME }}
 
       # - uses: EndBug/add-and-commit@v9
       #   with:
