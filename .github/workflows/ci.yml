@@ -105,14 +105,14 @@ jobs:
             echo "checkout main branch"
             git checkout main
 
-            echo "updating image tag in values file"
-            git_hash="838672f"
-            tag=$(cat ./${{ env.IMAGE_NAME }}/values.yaml | grep tag: | awk '{print $2}')
-            sed -i "s/$tag/$git_hash/" ./${{ env.IMAGE_NAME }}/values.yaml
+            # echo "updating image tag in values file"
+            # git_hash="838672f"
+            # tag=$(cat ./${{ env.IMAGE_NAME }}/values.yaml | grep tag: | awk '{print $2}')
+            # sed -i "s/$tag/$git_hash/" ./${{ env.IMAGE_NAME }}/values.yaml
 
-            git add . && git commit -m "update image tag"
+            # git add . && git commit -m "update image tag"
 
-            git push
+            # git push
 
         - name: debug
           run: |
