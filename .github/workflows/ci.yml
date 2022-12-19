@@ -65,7 +65,7 @@ jobs:
         uses: actions/checkout@master
         with:
           repository: gudiaolabs/gudiaolabs-charts
-          token: ${{ secrets.ACTIONS_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
           path: ./gudiaolabs-charts
 
       # - name: debug
