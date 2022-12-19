@@ -96,6 +96,7 @@ jobs:
           git_hash="838672f"
           tag=$(cat ./${{ env.IMAGE_NAME }}/values.yaml | grep tag: | awk '{print $2}')
           sed -i "s/$tag/$git_hash/" ./${{ env.IMAGE_NAME }}/values.yaml
+          git remote set-url origin https://cesarsturion:${{ secrets.GH_PAT }}@github.com/gudiaolabs/gudiaolabs-charts.git
           git add . && git commit -m "update image tag [skip ci]"
           git push
 
