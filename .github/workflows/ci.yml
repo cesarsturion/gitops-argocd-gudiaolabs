@@ -103,6 +103,8 @@ jobs:
           tag=$(cat ./${{ env.IMAGE_NAME }}/values.yaml | grep tag: | awk '{print $2}')
           sed -i "s/$tag/$git_hash/" ./${{ env.IMAGE_NAME }}/values.yaml
 
+          git remote set-url --add --push origin https://github.com/gudiaolabs/gudiaolabs-charts.git
+
           git add .
           git commit -am "File Replicated from Project A"
           git push
