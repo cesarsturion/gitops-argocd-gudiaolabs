@@ -74,12 +74,12 @@ jobs:
       #     repository: gudiaolabs/gudiaolabs-charts
       #     path: ./k8s
 
-      # - name: Checkout Helm Chart repository
-      #   uses: actions/checkout@master
-      #   with:
-      #     repository: gudiaolabs/gudiaolabs-charts
-      #     token: ${{ secrets.GITHUB_TOKEN }}
-      #     path: ./gudiaolabs-charts
+      - name: Checkout Helm Chart repository
+        uses: actions/checkout@v3
+        with:
+          repository: gudiaolabs/gudiaolabs-charts
+          token: ${{ secrets.GH_PAT_DEVOPS }}
+          path: ./gudiaolabs-charts
 
       # - name: debug
       #   run: |
@@ -87,12 +87,12 @@ jobs:
       #     ls -lha ./k8s
       #     ls -lha ./k8s/${{ env.IMAGE_NAME }}
 
-      # - name: update k8s
-      #   run: |
-      #     # git_hash=${{ needs.build.outputs.TAG_VERSION }}
-      #     git_hash="838672f"
-      #     tag=$(cat ./k8s/${{ env.IMAGE_NAME }}/values.yaml | grep tag: | awk '{print $2}')
-      #     sed -i "s/$tag/$git_hash/" ./k8s/${{ env.IMAGE_NAME }}/values.yaml
+      - name: update k8s
+        run: |
+          # git_hash=${{ needs.build.outputs.TAG_VERSION }}
+          git_hash="838672f"
+          tag=$(cat ./k8s/${{ env.IMAGE_NAME }}/values.yaml | grep tag: | awk '{print $2}')
+          sed -i "s/$tag/$git_hash/" ./k8s/${{ env.IMAGE_NAME }}/values.yaml
 
       # - name: commit
       #   run: |
@@ -149,14 +149,14 @@ jobs:
 
 
 
-        - name: debug
-          run: |
-            echo "Dir 01"
-            ls -lha
-            echo "Dir 02"
-            ls -lha ./$CONFIG_REPO_NAME
-            echo "Dir 03"
-            ls -lha ./$CONFIG_REPO_NAME/${{ env.IMAGE_NAME }}
+        # - name: debug
+        #   run: |
+        #     echo "Dir 01"
+        #     ls -lha
+        #     echo "Dir 02"
+        #     ls -lha ./$CONFIG_REPO_NAME
+        #     echo "Dir 03"
+        #     ls -lha ./$CONFIG_REPO_NAME/${{ env.IMAGE_NAME }}
 
       # - name: commit
       #   run: |
