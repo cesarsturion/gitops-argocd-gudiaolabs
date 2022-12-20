@@ -116,19 +116,19 @@ jobs:
           git config --global user.name "Cesar Sturion"
 
           echo "cloning config repo $CONFIG_REPO_NAME"
-          git clone git@github.com:gudiaolabs/gitops-argocd.git
+          git clone git@github.com:gudiaolabs/gudiaolabs-charts.git
 
-        #     cd ./$CONFIG_REPO_NAME
+          cd ./$CONFIG_REPO_NAME
 
-        #     echo "checkout main branch"
-        #     git checkout main
+          echo "checkout main branch"
+          git checkout main
 
-        #     echo "updating image tag in values file"
-        #     git_hash="838672f"
-        #     tag=$(cat ./${{ env.IMAGE_NAME }}/values.yaml | grep tag: | awk '{print $2}')
-        #     sed -i "s/$tag/$git_hash/" ./${{ env.IMAGE_NAME }}/values.yaml
+          echo "updating image tag in values file"
+          git_hash="838672f"
+          tag=$(cat ./${{ env.IMAGE_NAME }}/values.yaml | grep tag: | awk '{print $2}')
+          sed -i "s/$tag/$git_hash/" ./${{ env.IMAGE_NAME }}/values.yaml
 
-        #     git add . && git commit -m "update image tag"
+          git add . && git commit -m "update image tag"
 
         #     git push
 
@@ -184,10 +184,10 @@ jobs:
         run: |
           echo "Dir 01"
           ls -lha
-          # echo "Dir 02"
-          # ls -lha ./$CONFIG_REPO_NAME
-          # echo "Dir 03"
-          # ls -lha ./$CONFIG_REPO_NAME/${{ env.IMAGE_NAME }}
+          echo "Dir 02"
+          ls -lha ./$CONFIG_REPO_NAME
+          echo "Dir 03"
+          ls -lha ./$CONFIG_REPO_NAME/${{ env.IMAGE_NAME }}
 
       # - name: commit
       #   run: |
@@ -233,10 +233,10 @@ jobs:
       #     committer_email: actions@github.com
       #     cwd: './k8s/'
 
-      - name: Push changes
-        uses: ad-m/github-push-action@master
-        with:
-          github_token: ${{ secrets.GH_PAT_DEVOPS }}
-          repository: gudiaolabs/gitops-argocd-chart
-          branch: feature/argocd-tests
+      # - name: Push changes
+      #   uses: ad-m/github-push-action@master
+      #   with:
+      #     github_token: ${{ secrets.GH_PAT_DEVOPS }}
+      #     repository: gudiaolabs/gitops-argocd-chart
+      #     branch: feature/argocd-tests
 
