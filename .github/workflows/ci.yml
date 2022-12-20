@@ -58,7 +58,7 @@ jobs:
             private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
       - name: Dynamically set DATE environment variable
-        run: echo "DATE=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
+        run: echo "DATE=$(date +'%Y/%m/%d-%H:%M')" >> $GITHUB_ENV
 
       - run: |
           echo "promoting into dev environment!"
