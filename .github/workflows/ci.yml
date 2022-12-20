@@ -78,6 +78,8 @@ jobs:
           tag=$(cat ./${{ env.IMAGE_NAME }}/values.yaml | grep tag: | awk '{print $2}')
           sed -i "s/$tag/$git_hash/" ./${{ env.IMAGE_NAME }}/values.yaml
 
+          cat ./${{ env.IMAGE_NAME }}/values.yaml
+
           git add . && git commit -m "update image tag:$git_hash - ${{ env.DATE }}"
 
           git push
