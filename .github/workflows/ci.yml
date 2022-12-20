@@ -63,7 +63,7 @@ jobs:
       - run: |
           echo "promoting into dev environment!"
           git config --global user.email ${{ secrets.GIT_USER_EMAIL }}
-          git config --global user.name ${{ GIT_USER_NAME }}
+          git config --global user.name ${{ secrets.GIT_USER_NAME }}
 
           echo "cloning config repo $CONFIG_REPO_NAME"
           git clone git@github.com:gudiaolabs/gudiaolabs-charts.git
