@@ -110,6 +110,12 @@ jobs:
       #     git remote -v
       #     git push origin main
 
+      - name: Dynamically set DATE environment variable
+        run: echo "DATE=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
+
+      - name: Test DATE variable
+        run: echo ${{ env.DATE }}      
+
       - run: |
           echo "promoting into dev environment!"
           git config --global user.email "csturion@gmail.com"
@@ -124,11 +130,11 @@ jobs:
           git checkout main
 
           echo "updating image tag in values file"
-          git_hash="838672f"
+          git_hash="838672fa"
           tag=$(cat ./${{ env.IMAGE_NAME }}/values.yaml | grep tag: | awk '{print $2}')
           sed -i "s/$tag/$git_hash/" ./${{ env.IMAGE_NAME }}/values.yaml
 
-          git add . && git commit -m "update image tag"
+          git add . && git commit -m "update image tag:$git_hash - ${{ env.DATE }}"
 
           git push
 
