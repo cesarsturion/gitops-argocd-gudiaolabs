@@ -76,8 +76,15 @@ jobs:
           echo "updating image tag in values file"
           git_hash=${{ needs.build.outputs.TAG_VERSION }}
           tag=$(cat ./${{ env.IMAGE_NAME }}/values.yaml | grep tag: | awk '{print $2}')
-          sed -i "s/$tag/$git_hash/" ./${{ env.IMAGE_NAME }}/values.yaml
 
-          git add . && git commit -m "update image tag:$git_hash - ${{ env.DATE }}"
+          echo "updating namespace tag in values file"
+          namespace_new="gudiaolabs"
+          namespace_old=$(cat ./${{ env.IMAGE_NAME }}/values.yaml | grep namespace: | awk '{print $2}')
 
-          git push
+          sed -i "s/$tag/$git_hash/g;s/$namespace_new/$namespace_old/g;" ./${{ env.IMAGE_NAME }}/values.yaml
+
+          cat ./${{ env.IMAGE_NAME }}/values.yaml
+
+          # git add . && git commit -m "update image tag:$git_hash - ${{ env.DATE }}"
+
+          # git push
