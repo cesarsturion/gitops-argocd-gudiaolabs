@@ -81,7 +81,7 @@ jobs:
           namespace_new="gudiaolabs"
           namespace_old=$(cat ./${{ env.IMAGE_NAME }}/values.yaml | grep namespace: | awk '{print $2}')
 
-          sed -i "s/$tag/$git_hash/g;s/$namespace_new/$namespace_old/g;" ./${{ env.IMAGE_NAME }}/values.yaml
+          sed -i "s/$tag/$git_hash/g;s/$namespace_old/$namespace_new/g;" ./${{ env.IMAGE_NAME }}/values.yaml
 
           cat ./${{ env.IMAGE_NAME }}/values.yaml
 
