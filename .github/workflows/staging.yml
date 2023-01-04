@@ -7,13 +7,12 @@ on:
       - 'feature/*'
       - '!master'
       - '!main'
-  # pull_request:
-  #   branches: 
-  #     - 'master'
-  #     - 'main'
-  # release:
-  #   types:
-  #     - 'created'
+  pull_request:
+    types:
+      - 'closed'
+  release:
+    types:
+      - 'published'
 
 env:
   IMAGE_NAME: "gitops-argocd"
@@ -82,7 +81,7 @@ jobs:
           namespace_old=$(cat ./${{ env.IMAGE_NAME }}/values.yaml | grep namespace: | awk '{print $2}')
 
           echo "updating env tag in values file"
-          env_new="qa"
+          env_new="staging"
           env_old=$(cat ./${{ env.IMAGE_NAME }}/values.yaml | grep env: | awk '{print $2}')
 
           sed -i "s/$tag/$git_hash/g;s/$namespace_old/$namespace_new/g;s/$env_old/$env_new/g;" ./${{ env.IMAGE_NAME }}/values.yaml
