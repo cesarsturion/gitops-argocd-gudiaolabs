@@ -69,12 +69,15 @@ jobs:
 
           cd ./$CONFIG_REPO_NAME
 
-          echo "checkout main branch"
-          git checkout main
+          echo "create branch"
+          # git checkout main
 
           echo "updating image tag in values file"
           git_hash=${{ needs.build.outputs.TAG_VERSION }}
           tag=$(cat ./${{ env.IMAGE_NAME }}/values.yaml | grep tag: | awk '{print $2}')
+
+          git pull
+          git checkout -b $git_hash
 
           echo "updating namespace tag in values file"
           namespace_new="production"
@@ -90,6 +93,6 @@ jobs:
 
           git add . && git commit -m "update image tag:$git_hash - ${{ env.DATE }}"
 
-          git push
+          git push --set-upstream origin $git_hash
 
           git request-pull $git_hash git@github.com:gudiaolabs/gudiaolabs-charts.git main
