@@ -78,7 +78,7 @@ jobs:
           tag=$(cat ./${{ env.IMAGE_NAME }}/values.yaml | grep tag: | awk '{print $2}')
 
           echo "updating namespace tag in values file"
-          namespace_new="gudiaolabs"
+          namespace_new="staging"
           namespace_old=$(cat ./${{ env.IMAGE_NAME }}/values.yaml | grep namespace: | awk '{print $2}')
 
           echo "updating env tag in values file"
