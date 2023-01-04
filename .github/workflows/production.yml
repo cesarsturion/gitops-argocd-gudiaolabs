@@ -95,7 +95,7 @@ jobs:
 
           git push --set-upstream origin $git_hash
 
-          gh pr create --head main --title "update image tag:$git_hash - ${{ env.DATE }}" --body "[Automatic]: update image tag:$git_hash - ${{ env.DATE }}"
+          gh pr create --title "update image tag:$git_hash - ${{ env.DATE }}" --body "[Automatic]: update image tag:$git_hash - ${{ env.DATE }}"
           #git request-pull $git_hash git@github.com:gudiaolabs/gudiaolabs-charts.git main
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
