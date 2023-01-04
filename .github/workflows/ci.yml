@@ -89,6 +89,6 @@ jobs:
 
           cat ./${{ env.IMAGE_NAME }}/values.yaml
 
-          # git add . && git commit -m "update image tag:$git_hash - ${{ env.DATE }}"
+          git add . && git commit -m "update image tag:$git_hash - ${{ env.DATE }}"
 
-          # git push
+          git push
