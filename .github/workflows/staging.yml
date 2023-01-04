@@ -1,4 +1,4 @@
-name: CI with GitOps
+name: CI with GitOps - staging
 
 on:
   workflow_dispatch:
@@ -7,12 +7,12 @@ on:
       - 'feature/*'
       - '!master'
       - '!main'
-  pull_request:
-    types:
-      - 'closed'
-  release:
-    types:
-      - 'published'
+  # pull_request:
+  #   types:
+  #     - 'closed'
+  # release:
+  #   types:
+  #     - 'published'
 
 env:
   IMAGE_NAME: "gitops-argocd"

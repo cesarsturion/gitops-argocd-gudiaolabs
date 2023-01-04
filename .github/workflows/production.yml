@@ -1,15 +1,15 @@
-name: CI with GitOps
+name: CI with GitOps - production
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - 'feature/*'
-      - '!master'
-      - '!main'
-  pull_request:
-    types:
-      - 'closed'
+  # push:
+  #   branches:
+  #     - 'feature/*'
+  #     - '!master'
+  #     - '!main'
+  # pull_request:
+  #   types:
+  #     - 'closed'
   release:
     types:
       - 'published'
