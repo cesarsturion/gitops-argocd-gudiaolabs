@@ -92,4 +92,4 @@ jobs:
 
           git push
 
-          git request-pull $git_hash 
+          git request-pull $git_hash git@github.com:gudiaolabs/gudiaolabs-charts.git main
