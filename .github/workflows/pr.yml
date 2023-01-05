@@ -20,9 +20,9 @@ jobs:
           cd ./gudiaolabs-charts
 
           echo "New Values"
-          git_hash = "v-${{ github.run_number }}"
-          namespace_new = "production"
-          env_new = "production"
+          git_hash="v-${{ github.run_number }}"
+          namespace_new="production"
+          env_new="production"
 
           echo "create branch"
           git pull
