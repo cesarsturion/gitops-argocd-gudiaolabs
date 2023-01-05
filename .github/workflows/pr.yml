@@ -1,0 +1,22 @@
+name: Pull Request
+on: 
+  push:
+    branches:
+      - 'feature/*'
+jobs:
+  pull_request:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup SSH
+        uses: MrSquaare/ssh-setup-action@v1
+        with:
+            host: github.com
+            private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - run: |
+          gh repo clone git@github.com:gudiaolabs/gudiaolabs-charts.git
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - run: |
+          ls -lha
