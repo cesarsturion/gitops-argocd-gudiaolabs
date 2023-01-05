@@ -104,7 +104,7 @@ jobs:
 
           # gh pr create --title "update image tag:$git_hash - ${{ env.DATE }}" --body "[Automatic]: update image tag:$git_hash - ${{ env.DATE }}"
           # git request-pull $git_hash git@github.com:gudiaolabs/gudiaolabs-charts.git main
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        # env:
+        #   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 
