@@ -15,8 +15,7 @@ on:
   #     - 'published'
 
 permissions:
-  id-token: write
-  pull-requests: write
+  pull-requests: 'write'
 
 env:
   IMAGE_NAME: "gitops-argocd"
