@@ -2,11 +2,11 @@ name: CI with GitOps - staging
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - 'feature/*'
-      - '!master'
-      - '!main'
+  # push:
+  #   branches:
+  #     - 'feature/*'
+  #     - '!master'
+  #     - '!main'
   # pull_request:
   #   types:
   #     - 'closed'

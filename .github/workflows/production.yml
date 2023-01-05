@@ -2,17 +2,17 @@ name: CI with GitOps - production
 
 on:
   workflow_dispatch:
-  # push:
-  #   branches:
-  #     - 'feature/*'
-  #     - '!master'
-  #     - '!main'
+  push:
+    branches:
+      - 'feature/*'
+      - '!master'
+      - '!main'
   # pull_request:
   #   types:
   #     - 'closed'
-  release:
-    types:
-      - 'published'
+  # release:
+  #   types:
+  #     - 'published'
 
 env:
   IMAGE_NAME: "gitops-argocd"
@@ -36,7 +36,8 @@ jobs:
       - name: Set the tag
         id: set-tag
         run: |
-          git_hash=${{ github.event.release.name }}
+          # git_hash=${{ github.event.release.name }}
+          git_hash="v-${{ github.run_number }}"
           echo "TAG=$git_hash" >> $GITHUB_ENV
           echo "tag-output=$git_hash" >> $GITHUB_OUTPUT
 
@@ -95,9 +96,19 @@ jobs:
 
           git push --set-upstream origin $git_hash
 
-          gh pr create -B $git_hash -H main --title 'Merge branch_to_merge into base_branch' --body 'Created by Github action'
+          # gh pr create -B $git_hash -H main --title 'Merge branch_to_merge into base_branch' --body 'Created by Github action'
 
           # gh pr create --title "update image tag:$git_hash - ${{ env.DATE }}" --body "[Automatic]: update image tag:$git_hash - ${{ env.DATE }}"
           #git request-pull $git_hash git@github.com:gudiaolabs/gudiaolabs-charts.git main
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_PAT_DEVOPS }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: repo-sync/pull-request@v2
+        name: pull-request
+        with:
+          destination_branch: "main"
+          pr_title: "Pulling ${{ github.ref }} into main"
+          pr_body: "👑 *An automated PR*"
+          pr_draft: true
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
