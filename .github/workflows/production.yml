@@ -103,7 +103,7 @@ jobs:
 
           # gh pr create -B $git_hash -H main --title 'Merge branch_to_merge into base_branch' --body 'Created by Github action'
 
-          gh pr create --title 'Merge branch_to_merge into base_branch' --body 'Created by Github action' $REPO
+          gh pr create --title 'Merge branch_to_merge into base_branch' --body 'Created by Github action'
 
           # gh pr create --title "update image tag:$git_hash - ${{ env.DATE }}" --body "[Automatic]: update image tag:$git_hash - ${{ env.DATE }}"
           # git request-pull $git_hash git@github.com:gudiaolabs/gudiaolabs-charts.git main
