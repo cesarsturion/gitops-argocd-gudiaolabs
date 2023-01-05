@@ -14,6 +14,10 @@ on:
   #   types:
   #     - 'published'
 
+permissions:
+  id-token: write
+  pull-requests: write
+
 env:
   IMAGE_NAME: "gitops-argocd"
   CONFIG_REPO_NAME: "gudiaolabs-charts"
