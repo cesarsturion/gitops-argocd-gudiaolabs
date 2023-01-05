@@ -14,9 +14,6 @@ on:
   #   types:
   #     - 'published'
 
-permissions:
-  pull-requests: 'write'
-
 env:
   IMAGE_NAME: "gitops-argocd"
   CONFIG_REPO_NAME: "gudiaolabs-charts"
@@ -53,6 +50,8 @@ jobs:
     name: Deploy
     runs-on: ubuntu-latest
     needs: build
+    permissions:
+      pull-requests: 'write'
     steps:
       - name: Setup SSH
         uses: MrSquaare/ssh-setup-action@v1
