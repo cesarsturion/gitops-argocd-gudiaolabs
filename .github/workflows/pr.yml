@@ -36,11 +36,6 @@ jobs:
           echo "Change values in values file"
           sed -i "s/$tag/$git_hash/g;s/$namespace_old/$namespace_new/g;s/$env_old/$env_new/g;" ./gitops-argocd/values.yaml
 
-          git commit -a -m “Fixed value.yaml”
-          git push --set-upstream origin $git_hash
-
-          gh pr create --title 'Merge branch_to_merge into base_branch' --body 'Created by Github action'
-
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
