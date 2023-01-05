@@ -2,11 +2,11 @@ name: CI with GitOps - production
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - 'feature/*'
-      - '!master'
-      - '!main'
+  # push:
+  #   branches:
+  #     - 'feature/*'
+  #     - '!master'
+  #     - '!main'
   # pull_request:
   #   types:
   #     - 'closed'
@@ -107,17 +107,8 @@ jobs:
 
           # gh pr create --title "update image tag:$git_hash - ${{ env.DATE }}" --body "[Automatic]: update image tag:$git_hash - ${{ env.DATE }}"
           # git request-pull $git_hash git@github.com:gudiaolabs/gudiaolabs-charts.git main
-        # env:
-        #   GH_TOKEN: ${{ secrets.GH_PAT }}
-        #   OWNER: ${{ github.repository_owner }}
-        #   REPO: ${{ github.event.repository.name }}          
+        env:
+          GH_TOKEN: ${{ secrets.GH_PAT }}
 
-      - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v4
-        with:
-          commit-message: update authors
-          title: Update AUTHORS
-          body: Credit new contributors by updating AUTHORS
-          branch: $git_hash
 
 
