@@ -38,7 +38,6 @@ jobs:
 
           git add . && git commit -m "update image tag:$git_hash - ${{ env.DATE }}"
 
-
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
