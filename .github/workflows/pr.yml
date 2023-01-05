@@ -14,9 +14,30 @@ jobs:
             private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
       - run: |
+          echo "Clone Repo"
           gh repo clone git@github.com:gudiaolabs/gudiaolabs-charts.git
+
+          cd ./gudiaolabs-charts
+
+          echo "New Values"
+          git_hash = "v-${{ github.run_number }}"
+          namespace_new = "production"
+          env_new = "production"
+
+          echo "create branch"
+          git pull
+          git checkout -b $git_hash
+
+          echo "get values in values file"
+          tag=$(cat ./gitops-argocd/values.yaml | grep tag: | awk '{print $2}')
+          namespace_old=$(cat ./gitops-argocdvalues.yaml | grep namespace: | awk '{print $2}')
+          env_old=$(cat ./gitops-argocd/values.yaml | grep env: | awk '{print $2}')
+
+          echo "Change values in values file"
+          sed -i "s/$tag/$git_hash/g;s/$namespace_old/$namespace_new/g;s/$env_old/$env_new/g;" ./gitops-argocd/values.yaml
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - run: |
           ls -lha
+          cat ./gudiaolabs-charts/gitops-argocd/values.yaml

@@ -1,8 +1,9 @@
 name: Report remaining open issues
 on: 
-  push:
-    branches:
-      - 'feature/*'
+  workflow_dispatch:
+  # push:
+  #   branches:
+  #     - 'feature/*'
 jobs:
   track_pr:
     runs-on: ubuntu-latest
