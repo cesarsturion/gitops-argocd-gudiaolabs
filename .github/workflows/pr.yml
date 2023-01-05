@@ -36,6 +36,9 @@ jobs:
           echo "Change values in values file"
           sed -i "s/$tag/$git_hash/g;s/$namespace_old/$namespace_new/g;s/$env_old/$env_new/g;" ./gitops-argocd/values.yaml
 
+          git add . && git commit -m "update image tag:$git_hash - ${{ env.DATE }}"
+
+
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
