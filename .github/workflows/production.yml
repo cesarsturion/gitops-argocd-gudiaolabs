@@ -96,19 +96,11 @@ jobs:
 
           git push --set-upstream origin $git_hash
 
-          # gh pr create -B $git_hash -H main --title 'Merge branch_to_merge into base_branch' --body 'Created by Github action'
+          gh pr create -B $git_hash -H main --title 'Merge branch_to_merge into base_branch' --body 'Created by Github action'
 
           # gh pr create --title "update image tag:$git_hash - ${{ env.DATE }}" --body "[Automatic]: update image tag:$git_hash - ${{ env.DATE }}"
           #git request-pull $git_hash git@github.com:gudiaolabs/gudiaolabs-charts.git main
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - uses: repo-sync/pull-request@v2
-        name: pull-request
-        with:
-          destination_branch: "main"
-          pr_title: "Pulling ${{ github.ref }} into main"
-          pr_body: "👑 *An automated PR*"
-          pr_draft: true
-          github_token: ${{ secrets.GITHUB_TOKEN }}
 
