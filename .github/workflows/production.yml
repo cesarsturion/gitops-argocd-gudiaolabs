@@ -41,10 +41,10 @@ jobs:
           echo "TAG=$git_hash" >> $GITHUB_ENV
           echo "tag-output=$git_hash" >> $GITHUB_OUTPUT
 
-      - name: Build and Push the Image
-        run: |
-          docker build -t ${{ secrets.DOCKER_USER }}/$IMAGE_NAME:${{ env.TAG }} .
-          docker push ${{ secrets.DOCKER_USER }}/$IMAGE_NAME:${{ env.TAG }}
+      # - name: Build and Push the Image
+      #   run: |
+      #     docker build -t ${{ secrets.DOCKER_USER }}/$IMAGE_NAME:${{ env.TAG }} .
+      #     docker push ${{ secrets.DOCKER_USER }}/$IMAGE_NAME:${{ env.TAG }}
 
   deploy: 
     name: Deploy
