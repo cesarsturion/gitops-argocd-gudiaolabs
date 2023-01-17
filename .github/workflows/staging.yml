@@ -56,10 +56,10 @@ jobs:
           git clone git@github.com:gudiaolabs/gudiaolabs-charts.git
 
           ls -lha
+          ls -lha ./gudiaolabs-charts
 
-          cd ./gudiaolabs-charts/charts/$CONFIG_REPO_NAME
+          # cd ./gudiaolabs-charts/charts/$CONFIG_REPO_NAME
 
-          ls -lha
 
           echo "checkout main branch"
           git checkout main
