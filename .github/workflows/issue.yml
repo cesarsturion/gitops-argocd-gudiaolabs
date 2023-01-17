@@ -4,6 +4,18 @@ on:
   # push:
   #   branches:
   #     - 'feature/*'
+  # push:
+  #   branches:
+  #     - 'feature/*'
+  #     - '!master'
+  #     - '!main'
+  # pull_request:
+  #   types:
+  #     - 'closed'
+  # release:
+  #   types:
+  #     - 'published'
+
 jobs:
   track_pr:
     runs-on: ubuntu-latest
