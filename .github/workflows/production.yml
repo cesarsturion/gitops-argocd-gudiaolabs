@@ -2,14 +2,6 @@ name: CI with GitOps - production
 
 on:
   workflow_dispatch:
-  # push:
-  #   branches:
-  #     - 'feature/*'
-  #     - '!master'
-  #     - '!main'
-  # pull_request:
-  #   types:
-  #     - 'closed'
   release:
     types:
       - 'published'
@@ -49,6 +41,9 @@ jobs:
     name: Deploy
     runs-on: ubuntu-latest
     needs: build
+    permissions:
+      contents: "write"    
+      pull-requests: 'write'
     steps:
       - name: Setup SSH
         uses: MrSquaare/ssh-setup-action@v1
@@ -60,44 +55,34 @@ jobs:
         run: echo "DATE=$(date +'%Y/%m/%d-%H:%M')" >> $GITHUB_ENV
 
       - run: |
-          echo "promoting into dev environment!"
-          git config --global user.email ${{ secrets.GIT_USER_EMAIL }}
-          git config --global user.name ${{ secrets.GIT_USER_NAME }}
-
           echo "cloning config repo $CONFIG_REPO_NAME"
           git clone git@github.com:gudiaolabs/gudiaolabs-charts.git
 
           cd ./$CONFIG_REPO_NAME
 
-          echo "create branch"
-          # git checkout main
-
-          echo "updating image tag in values file"
+          echo "New Values"
           git_hash=${{ needs.build.outputs.TAG_VERSION }}
-          tag=$(cat ./${{ env.IMAGE_NAME }}/values.yaml | grep tag: | awk '{print $2}')
+          namespace_new="production"
+          env_new="production"
 
+          echo "create branch"
           git pull
           git checkout -b $git_hash
 
-          echo "updating namespace tag in values file"
-          namespace_new="production"
+          echo "Getting values in file"
+          tag=$(cat ./${{ env.IMAGE_NAME }}/values.yaml | grep tag: | awk '{print $2}')
           namespace_old=$(cat ./${{ env.IMAGE_NAME }}/values.yaml | grep namespace: | awk '{print $2}')
-
-          echo "updating env tag in values file"
-          env_new="production"
           env_old=$(cat ./${{ env.IMAGE_NAME }}/values.yaml | grep env: | awk '{print $2}')
 
+          echo "updating values file"
           sed -i "s/$tag/$git_hash/g;s/$namespace_old/$namespace_new/g;s/$env_old/$env_new/g;" ./${{ env.IMAGE_NAME }}/values.yaml
 
-          cat ./${{ env.IMAGE_NAME }}/values.yaml
-
-          git add . && git commit -m "update image tag:$git_hash - ${{ env.DATE }}"
-
+          echo "Commit changes"
+          git config --global user.email ${{ secrets.GIT_USER_EMAIL }}
+          git config --global user.name ${{ secrets.GIT_USER_NAME }}
+          git add . && git commit -m "update image tag:$git_hash - ${{ env.DATE }} - Commit by Github Actions"
           git push --set-upstream origin $git_hash
+          git request-pull $git_hash git@github.com:gudiaolabs/gudiaolabs-charts.git main
 
-          gh pr create -B $git_hash -H main --title 'Merge branch_to_merge into base_branch' --body 'Created by Github action'
 
-          # gh pr create --title "update image tag:$git_hash - ${{ env.DATE }}" --body "[Automatic]: update image tag:$git_hash - ${{ env.DATE }}"
-          #git request-pull $git_hash git@github.com:gudiaolabs/gudiaolabs-charts.git main
-        env:
-          GITHUB_TOKEN: ${{ secrets.GH_PAT_DEVOPS }}
+
