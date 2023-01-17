@@ -7,8 +7,8 @@ on:
       - 'closed'
 
 env:
+  ENVIRONMENT: "staging"
   IMAGE_NAME: "gitops-argocd"
-  CONFIG_REPO_NAME: "gudiaolabs-charts"
 
 jobs:
   build:
@@ -52,33 +52,36 @@ jobs:
         run: echo "DATE=$(date +'%Y/%m/%d-%H:%M')" >> $GITHUB_ENV
 
       - run: |
-          echo "cloning config repo $CONFIG_REPO_NAME"
+          echo "cloning config repo vissimo-charts"
           git clone git@github.com:gudiaolabs/gudiaolabs-charts.git
-
-          ls -lha
-          ls -lha ./gudiaolabs-charts
-
-          # cd ./gudiaolabs-charts/charts/$CONFIG_REPO_NAME
-
+          
+          cd ./gudiaolabs-charts/charts/${{ env.IMAGE_NAME }}
 
           echo "checkout main branch"
           git checkout main
 
-          echo "New Values"
+          echo "New Values - values.yaml"
           git_hash=${{ needs.build.outputs.TAG_VERSION }}
-          namespace_new="staging"
-          env_new="staging"
+          namespace_new="default"
+          env_new=${{ env.ENVIRONMENT }}
 
-          # echo "Getting values in file"
-          # tag=$(cat ./${{ env.IMAGE_NAME }}/values.yaml | grep tag: | awk '{print $2}')
-          # namespace_old=$(cat ./${{ env.IMAGE_NAME }}/values.yaml | grep namespace: | awk '{print $2}')
-          # env_old=$(cat ./${{ env.IMAGE_NAME }}/values.yaml | grep env: | awk '{print $2}')
+          echo "Getting values in file - values.yaml"
+          tag=$(cat ./values.yaml | grep tag: | awk '{print $2}')
+          namespace_old=$(cat ./values.yaml | grep namespace: | awk '{print $2}')
+          env_old=$(cat ./values.yaml | grep environment: | awk '{print $2}')
 
-          # echo "updating values file"
-          # sed -i "s/$tag/$git_hash/g;s/$namespace_old/$namespace_new/g;s/$env_old/$env_new/g;" ./${{ env.IMAGE_NAME }}/values.yaml
+          echo "Getting values in file - Chart.yaml"
+          version_old=$(cat ./Chart.yaml | grep version: | awk '{print $2}')
+          version_new="$version_old-rc${{ env.RC_SEQ }}"
 
-          # echo "Commit changes"
-          # git config --global user.email ${{ secrets.GIT_USER_EMAIL }}
-          # git config --global user.name ${{ secrets.GIT_USER_NAME }}
-          # git add . && git commit -m "update image tag:$git_hash - ${{ env.DATE }}  - Commit by Github Actions"
-          # git push
+          echo "updating values file values.yaml"
+          sed -i "s/$tag/$git_hash/g;s/$namespace_old/$namespace_new/g;s/$env_old/$env_new/g;" ./values.yaml
+
+          echo "updating values file Chart.yaml"
+          sed -i "s/$version_old/$version_new/g;" ./Chart.yaml
+
+          echo "Commit changes"
+          git config --global user.email ${{ secrets.GIT_USER_EMAIL }}
+          git config --global user.name ${{ secrets.GIT_USER_NAME }}
+          git add . && git commit -m "update image tag:$git_hash - ${{ env.DATE }}  - Commit by Github Actions"
+          git push
